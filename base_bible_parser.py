@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import re
 from collections import defaultdict, namedtuple
 import json
+import contractions
 
 file = "NIV.xml"
 
@@ -34,16 +35,24 @@ from nltk import word_tokenize
 from nltk.corpus import stopwords
 import string
 
-stop = set(stopwords.words("english") + list(string.punctuation))
+stop = set(stopwords.words("english"))
 # x = [i for i in word_tokenize(soup.text.lower()) if i not in stop]
 
 corpus = defaultdict(list)
 for verse in soup.findAll("v"):
     ref = getRef(next(verse.children))
-    for word in word_tokenize(
-        verse.text.lower().replace("-", " ").replace("'s", "").replace("'", "")
-    ):
+    # Verse processing
+    sentence = verse.text.lower()
+    sentence = contractions.fix(sentence)
+    # Hypens are bad sometimes
+    sentence = sentence.replace("-", " ")
+    sentence = re.sub(r"[^a-zA-Z0-9\s]", "", sentence)
+    sentence = word_tokenize(sentence)
+    sentence = [i for i in sentence if i not in stop]
+    # print(sentence)
+
+    for word in sentence:
         if word not in stop:
             corpus[word].append((ref.book, ref.chapter, ref.verse))
 
-json.dump(corpus, open("corpus_without_hypen_and_quotes.json", "w"))
+json.dump(corpus, open("corpusv2.json", "w"))

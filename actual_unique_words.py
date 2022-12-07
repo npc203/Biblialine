@@ -7,25 +7,28 @@ file = "NIV.xml"
 
 Ref = namedtuple("Ref", "book chapter verse word")
 
-with open(file, "r") as f:
-    soup = BeautifulSoup(f, "xml")
+# with open(file, "r") as f:
+#     soup = BeautifulSoup(f, "xml")
 
 
-def getRef(word):
-    verse = word.parent
-    chapter = verse.parent
-    book = chapter.parent
-    return Ref(book["n"], chapter["n"], verse["n"], word)
+# def getRef(word):
+#     verse = word.parent
+#     chapter = verse.parent
+#     book = chapter.parent
+#     return Ref(book["n"], chapter["n"], verse["n"], word)
 
 
-corpus = defaultdict(list)
-for verse in soup.findAll("v"):
-    ref = getRef(next(verse.children))
-    for word in verse.text.lower().split():
-        corpus[word].append((ref.book, ref.chapter, ref.verse))
+# corpus = defaultdict(list)
+# for verse in soup.findAll("v"):
+#     ref = getRef(next(verse.children))
+#     for word in verse.text.lower().split():
+#         corpus[word].append((ref.book, ref.chapter, ref.verse))
 
 from tabulate import tabulate
 import plotly.express as px
+
+with open("corpusv2.json", "r") as f:
+    corpus = json.load(f)
 
 one_words = []
 for w, refs in corpus.items():
@@ -40,6 +43,6 @@ x, y = zip(*freq.items())
 fig = px.bar(
     x=x, y=y, title="Books with unique words", labels={"y": "Number of unique words", "x": "books"}
 )
-fig.show()
+# fig.show()
 
-open("actual_unique.txt", "w").write(tabulate(one_words))
+open("actual_uniquev2.txt", "w").write(tabulate(one_words))
