@@ -3,6 +3,13 @@
 2. Finding most common words, generally and selectively (in certain books)
 3. Pick a group of words and find spread both book and chapterwise
 
+
+# TODO
+1. find 90% above similar verses eg: 2 Chronicles 1:16 and 1 Kings 10:28
+2. Html server for the app
+3. Better fuzzy searches on words
+4. Better corpus (include the use of ' and " but ignore those messy punctuations)
+
 # Inferences?
 1. Top 6 most common words (look into the ipynb notebook):
    1. Lord

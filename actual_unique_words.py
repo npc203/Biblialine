@@ -33,7 +33,8 @@ with open("corpusv2.json", "r") as f:
 one_words = []
 for w, refs in corpus.items():
     if len(refs) == 1:
-        one_words.append((w, refs[0]))
+        curr_ref = refs[0]
+        one_words.append((w, f"{curr_ref[0]} {curr_ref[1]}:{curr_ref[2]}"))
 
 freq = defaultdict(int)
 for word, ref in one_words:
