@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block content %}
+<body>
+  <h1>BibliaLine</h1>
+  <form>
+    <span id="word-select"></span>
+  </form>
+  <div id="chart" class="chart"></div>
+  <div class="chapter-popup">
+    <div id="chapter-view" class="chapter-view"></div>
+  </div>
+</body>
+<script type="text/javascript">
+
+  function cb(option)
+    {
+      $.getJSON({
+        url:"/callback",data: {"data":option}, success: function result(result){
+          Plotly.plot('chart',result,{});
+        }
+      })
+    }
+    var graphs = {{graphJSON | safe}};
+    var plot = Plotly.plot('chart',graphs,{});
+
+    document.getElementById("chart").on('plotly_click', function(data){
+      console.log(data);
+      $.getJSON({
+        url:"/chapter_callback",data:  {"words": "Lord","book":data.points[0].x}, success: function result(result){
+          Plotly.plot('chapter-view',result,{});
+        }
+      })
+  });
+</script>
+{% endblock %}

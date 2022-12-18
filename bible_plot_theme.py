@@ -1,7 +1,8 @@
-from bs4 import BeautifulSoup
 import re
-from collections import namedtuple,defaultdict,Counter
+from collections import Counter, defaultdict, namedtuple
 from string import punctuation
+
+from bs4 import BeautifulSoup
 
 file = "NIV.xml"
 word = "(?i)lord"
@@ -34,5 +35,6 @@ myList = stats.items()
 x, y = zip(*myList)
 
 import plotly.express as px
+
 fig = px.bar(x=x,y=y)
 fig.show()

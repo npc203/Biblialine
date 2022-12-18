@@ -1,6 +1,7 @@
-import json
 import difflib
-from rapidfuzz import process, fuzz
+import json
+
+from rapidfuzz import fuzz, process
 
 
 def similar_words(word, list_words, percent):

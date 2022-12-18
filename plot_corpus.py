@@ -1,6 +1,5 @@
-from collections import defaultdict
 import json
-from collections import defaultdict, Counter
+from collections import Counter, defaultdict
 
 with open("corpus.json", "r") as f:
     corpus = json.load(f)

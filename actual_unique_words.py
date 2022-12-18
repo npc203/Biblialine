@@ -1,7 +1,8 @@
-from bs4 import BeautifulSoup
+import json
 import re
 from collections import defaultdict, namedtuple
-import json
+
+from bs4 import BeautifulSoup
 
 file = "NIV.xml"
 
@@ -24,8 +25,8 @@ Ref = namedtuple("Ref", "book chapter verse word")
 #     for word in verse.text.lower().split():
 #         corpus[word].append((ref.book, ref.chapter, ref.verse))
 
-from tabulate import tabulate
 import plotly.express as px
+from tabulate import tabulate
 
 with open("corpusv2.json", "r") as f:
     corpus = json.load(f)

@@ -1,11 +1,12 @@
 # http://www.opensong.org/home/download
 # Scroll down to the bibles section and get those zip files, which are just xmls
 
-from bs4 import BeautifulSoup
+import json
 import re
 from collections import defaultdict, namedtuple
-import json
+
 import contractions
+from bs4 import BeautifulSoup
 
 file = "NIV.xml"
 
@@ -31,9 +32,10 @@ def getRef(word):
 # print(len(res))
 # print(soup.text)
 
+import string
+
 from nltk import word_tokenize
 from nltk.corpus import stopwords
-import string
 
 stop = set(stopwords.words("english"))
 # x = [i for i in word_tokenize(soup.text.lower()) if i not in stop]
