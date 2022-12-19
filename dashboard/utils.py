@@ -178,5 +178,4 @@ def chapter_wise(words, books):
             ],
             ignore_index=True,
         )
-        print(df)
     return df
