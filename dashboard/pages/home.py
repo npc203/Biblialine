@@ -41,7 +41,7 @@ layout = html.Div(
         html.Div(
             [
                 dcc.Dropdown(all_words, multi=True, id="word-dropdown"),
-                dcc.Checklist(["Show Percentage"], ["Show Percentage"], id="options"),
+                dcc.Checklist(["Show Percentage"], [], id="options"),
             ]
         ),
         html.Br(),
@@ -92,6 +92,7 @@ def show_chapter_graph(combined_G, main_G, words, modal):
         )
 
         fig.update_layout(
+            title_text=f"Book: {book}",
             yaxis_title="Word Count",
             xaxis_title="Chapters",
             showlegend=True,
