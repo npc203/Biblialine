@@ -13,7 +13,9 @@ from utils import (
     all_words,
     plot_word,
     plot_words,
+    chapter_wise,
 )
+import dash_bootstrap_components as dbc
 import dash
 import pandas as pd
 import plotly.express as px
@@ -51,21 +53,55 @@ layout = html.Div(
             ]
         ),
         html.Div(id="sus", style={"white-space": "pre-line"}),
+        dbc.Modal(
+            [
+                dbc.ModalHeader("Chapter-wise word count"),
+                dbc.ModalBody(dcc.Graph(id="modal-graph", figure=go.Figure())),
+                # dbc.ModalFooter(dbc.Button("CLOSE BUTTON", id="close", className="ml-auto")),
+            ],
+            id="modal",
+            size="xl",
+        ),
     ]
 )
 
 
 @app.callback(
-    Output("sus", "children"),
+    [
+        Output("combined-graph", "clickData"),
+        Output("main-graph", "clickData"),
+        Output("modal", "is_open"),
+        Output("modal-graph", "figure"),
+    ],
     [Input("combined-graph", "clickData"), Input("main-graph", "clickData")],
     State("word-dropdown", "value"),
+    State("modal", "is_open"),
 )
-def show_chapter_graph(combined_G, main_G, words):
+def show_chapter_graph(combined_G, main_G, words, modal):
     if combined_G or main_G:
         data = combined_G or main_G
         book = data["points"][0]["label"]
-        return dcc.Location(id="url", href=f"/chapters?book={book}&words={words}")
-    return None
+        books = [book]
+        # Make the graph
+        print(words)
+        words = words_preprocess(words)
+        df = chapter_wise(words, books)  # {"Genesis":{"1":30,"2":20...},"Exodus":{...}...}
+
+        fig = px.bar(
+            df, x="chapter", y="count", color="word", hover_data=["word", "count", "verses"]
+        )
+
+        fig.update_layout(
+            yaxis_title="Word Count",
+            xaxis_title="Chapters",
+            showlegend=True,
+        )
+
+        fig.update_xaxes(categoryorder="array", categoryarray=tuple(range(200)))  # Hack for now
+
+        return None, None, True, fig
+        # return dcc.Location(id="url", href=f"/chapters?book={book}&words={words}")
+    return None, None, False, go.Figure()
 
 
 @app.callback(

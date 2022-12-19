@@ -152,3 +152,31 @@ def plot_words(words, corpus, filter_books=None, show_percent=False):
     )
     fig.update_xaxes(categoryorder="array", categoryarray=bible_books_in_order)
     return fig, big_df
+
+
+def chapter_wise(words, books):
+    cols = ["book", "chapter", "word", "count", "verses"]
+    df = pd.DataFrame(columns=cols)
+    for word in words:
+        new_refs = defaultdict(lambda: [0, set()])  # (count,verses)
+        refs = corpus.get(word, [])
+        for ref in refs:
+            if ref[0] in books:
+                pt = new_refs[(ref[0], ref[1])]
+                pt[0] += 1
+                pt[1].add(int(ref[2]))
+        df = pd.concat(
+            [
+                df,
+                pd.DataFrame(
+                    [
+                        (book, chap, word, count, ", ".join(map(str, sorted(verses))))  # Cursed
+                        for (book, chap), (count, verses) in new_refs.items()
+                    ],
+                    columns=cols,
+                ),
+            ],
+            ignore_index=True,
+        )
+        print(df)
+    return df

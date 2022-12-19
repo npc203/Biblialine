@@ -2,7 +2,7 @@ import dash
 from dash import html, dcc, Input, Output
 import urllib.parse as parse
 import ast
-from utils import corpus, words_preprocess
+from utils import corpus, words_preprocess, chapter_wise
 from collections import defaultdict
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -17,16 +17,6 @@ layout = html.Div(
         html.Div(id="page-content"),
     ]
 )
-
-
-def chapter_wise(words, books):
-    new_refs = defaultdict(lambda: defaultdict(int))
-    for word in words:
-        refs = corpus.get(word, [])
-        for ref in refs:
-            if ref[0] in books:
-                new_refs[ref[0]][ref[1]] += 1
-    return new_refs
 
 
 @dash.callback(
