@@ -83,7 +83,6 @@ def show_chapter_graph(combined_G, main_G, words, modal):
         book = data["points"][0]["label"]
         books = [book]
         # Make the graph
-        print(words)
         words = words_preprocess(words)
         df = chapter_wise(words, books)  # {"Genesis":{"1":30,"2":20...},"Exodus":{...}...}
 

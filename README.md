@@ -1,14 +1,17 @@
+# Biblialine
+- Graphing words in the bible
+- In progress
+  
 # Tasks Done
-1. Analysed words that occur exactly once in the bible, ~4k words, astonishingly common words (see one_words_in_bible.txt)
+1. Analysed words that occur exactly once in the bible, ~4k words, astonishingly common words (see actual_uniquev2.txt)
 2. Finding most common words, generally and selectively (in certain books)
 3. Pick a group of words and find spread both book and chapterwise
 
-
 # TODO
 1. find 90% above similar verses eg: 2 Chronicles 1:16 and 1 Kings 10:28
-2. Html server for the app
-3. Better fuzzy searches on words
-4. Better corpus (include the use of ' and " but ignore those messy punctuations)
+2. Better fuzzy searches on words
+3. Better corpus (include the use of ' and " but ignore those messy punctuations)
+4. Transformer model?
 
 # Inferences?
 1. Top 6 most common words (look into the ipynb notebook):
@@ -19,7 +22,7 @@
    5. One
    6. Son
 2. 1 Chronicles (probably) has the most number of unique words (421 words)
-3. On average, 1 in every 4 (intresting) words occur exactly once in the bible (occur once ~4k words, total words ~16k words)
+3. On average, 1 in every 4 (notable) words occur exactly once in the bible (occur once ~4k words, total words ~16k words)
 
 
 # Dumps
