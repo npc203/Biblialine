@@ -11,7 +11,9 @@
 1. find 90% above similar verses eg: 2 Chronicles 1:16 and 1 Kings 10:28
 2. Better fuzzy searches on words
 3. Better corpus (include the use of ' and " but ignore those messy punctuations)
-4. Transformer model?
+4. Dark mode
+5. Other versions of eng, other languages?
+6. Transformer model?
 
 # Inferences?
 1. Top 6 most common words (look into the ipynb notebook):

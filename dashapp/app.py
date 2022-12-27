@@ -1,6 +1,6 @@
-from dash import Dash, html, dcc
-import dash_bootstrap_components as dbc
 import dash
+import dash_bootstrap_components as dbc
+from dash import Dash, dcc, html
 
 app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 

@@ -1,24 +1,17 @@
-from dash import Dash, dcc, html, Input, Output, State
 import json
-from plotly.subplots import make_subplots
-import plotly.graph_objects as go
-import plotly
 from collections import defaultdict
-from utils import (
-    words_preprocess,
-    bible_books_in_order,
-    unique_word_count,
-    HOVER_TEMPLATE,
-    corpus,
-    all_words,
-    plot_word,
-    plot_words,
-    chapter_wise,
-)
-import dash_bootstrap_components as dbc
+
 import dash
+import dash_bootstrap_components as dbc
 import pandas as pd
+import plotly
 import plotly.express as px
+import plotly.graph_objects as go
+from dash import Dash, Input, Output, State, dcc, html
+from plotly.subplots import make_subplots
+from utils import (HOVER_TEMPLATE, all_words, bible_books_in_order,
+                   chapter_wise, corpus, plot_word, plot_words,
+                   unique_word_count, words_preprocess)
 
 app = dash.get_app()
 dash.register_page(__name__, path="/")
@@ -40,8 +33,12 @@ layout = html.Div(
         html.H1("Biblialine"),
         html.Div(
             [
-                dcc.Dropdown(all_words, multi=True, id="word-dropdown"),
-                dcc.Checklist(["Show Percentage"], [], id="options"),
+                dcc.Dropdown(
+                    all_words, multi=True, id="word-dropdown", style={"margin": "20px 0px"}
+                ),
+                dcc.Checklist(
+                    [{"label": " Show Percentage", "value": "show_percent"}], id="options"
+                ),
             ]
         ),
         html.Br(),
@@ -62,7 +59,8 @@ layout = html.Div(
             id="modal",
             size="xl",
         ),
-    ]
+    ],
+    style={"padding": "20px"},
 )
 
 
@@ -115,7 +113,11 @@ def show_chapter_graph(combined_G, main_G, words, modal):
 def update_graph(words, options):
     if words:
         words = [words] if isinstance(words, str) else words
-        show_percent = "Show Percentage" in options
+        # Ew change this
+        if options:
+            show_percent = "show_percent" in options
+        else:
+            show_percent = False
         words_fig, dfs = callback_processor(
             {
                 "books": bible_books_in_order,

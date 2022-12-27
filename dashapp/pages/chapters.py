@@ -1,11 +1,12 @@
-import dash
-from dash import html, dcc, Input, Output
-import urllib.parse as parse
 import ast
-from utils import corpus, words_preprocess, chapter_wise
+import urllib.parse as parse
 from collections import defaultdict
+
+import dash
 import plotly.graph_objects as go
+from dash import Input, Output, dcc, html
 from plotly.subplots import make_subplots
+from utils import chapter_wise, corpus, words_preprocess
 
 dash.register_page(__name__)
 

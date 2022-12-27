@@ -8,7 +8,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 from flask import Flask, render_template, request
 from plotly.subplots import make_subplots
-
 from utils import bible_books_in_order, words_preprocess
 
 app = Flask(__name__)
