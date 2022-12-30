@@ -9,9 +9,17 @@ import plotly.express as px
 import plotly.graph_objects as go
 from dash import Dash, Input, Output, State, dcc, html
 from plotly.subplots import make_subplots
-from utils import (HOVER_TEMPLATE, all_words, bible_books_in_order,
-                   chapter_wise, corpus, plot_word, plot_words,
-                   unique_word_count, words_preprocess)
+from utils import (
+    HOVER_TEMPLATE,
+    all_words,
+    bible_books_in_order,
+    chapter_wise,
+    corpus,
+    plot_word,
+    plot_words,
+    unique_word_count,
+    words_preprocess,
+)
 
 app = dash.get_app()
 dash.register_page(__name__, path="/")
@@ -71,11 +79,15 @@ layout = html.Div(
         Output("modal", "is_open"),
         Output("modal-graph", "figure"),
     ],
-    [Input("combined-graph", "clickData"), Input("main-graph", "clickData")],
+    [
+        Input("combined-graph", "figure"),
+        Input("combined-graph", "clickData"),
+        Input("main-graph", "clickData"),
+    ],
     State("word-dropdown", "value"),
     State("modal", "is_open"),
 )
-def show_chapter_graph(combined_G, main_G, words, modal):
+def show_chapter_graph(actual_G, combined_G, main_G, words, modal):
     if combined_G or main_G:
         data = combined_G or main_G
         book = data["points"][0]["label"]
@@ -96,6 +108,11 @@ def show_chapter_graph(combined_G, main_G, words, modal):
         )
 
         fig.update_xaxes(categoryorder="array", categoryarray=tuple(range(200)))  # Hack for now
+
+        # Use the same colors
+        colors = {g["name"]: g["marker"]["color"] for g in actual_G["data"]}
+        for g in fig.data:
+            g.marker.color = colors[g.name]
 
         return None, None, True, fig
         # return dcc.Location(id="url", href=f"/chapters?book={book}&words={words}")
